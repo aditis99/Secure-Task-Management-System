@@ -1,0 +1,27 @@
+<nav class="bg-white shadow-sm">
+  <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
+    <a routerLink="/dashboard" class="text-lg font-semibold text-brand">Secure Tasks</a>
+    <div class="flex items-center space-x-4">
+      <a
+        *ngFor="let item of navItems"
+        [routerLink]="item.path"
+        routerLinkActive="text-brand font-semibold"
+        class="text-sm text-slate-600 transition hover:text-slate-900"
+        >{{ item.label }}</a
+      >
+      <ng-container *ngIf="currentUser(); else guestLinks">
+        <span class="hidden text-sm text-slate-500 sm:inline">{{ currentUser()?.email }}</span>
+        <button
+          type="button"
+          class="text-sm font-semibold text-slate-700 hover:text-brand"
+          (click)="logout()"
+        >
+          Logout
+        </button>
+      </ng-container>
+      <ng-template #guestLinks>
+        <a routerLink="/login" class="text-sm font-semibold text-brand">Login</a>
+      </ng-template>
+    </div>
+  </div>
+</nav>

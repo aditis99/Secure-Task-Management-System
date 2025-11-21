@@ -1,0 +1,52 @@
+<div class="mx-auto flex min-h-[calc(100vh-4rem)] max-w-md flex-col justify-center px-4">
+  <h1 class="mb-6 text-3xl font-semibold text-slate-900">Welcome back</h1>
+
+  <form class="space-y-4 rounded-xl bg-white p-6 shadow-sm" [formGroup]="loginForm" (ngSubmit)="submit()">
+    <p
+      class="rounded-lg bg-red-50 px-4 py-2 text-sm text-red-600"
+      *ngIf="errorMessage()"
+    >
+      {{ errorMessage() }}
+    </p>
+    <div>
+      <label class="text-sm font-medium text-slate-700" for="email">Email</label>
+      <input
+        id="email"
+        formControlName="email"
+        type="email"
+        class="mt-1 w-full rounded-lg border-slate-300 focus:border-brand focus:ring-brand"
+        placeholder="you@company.com"
+      />
+      <p class="mt-1 text-sm text-red-500" *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid">
+        Enter a valid email address.
+      </p>
+    </div>
+
+    <div>
+      <label class="text-sm font-medium text-slate-700" for="password">Password</label>
+      <input
+        id="password"
+        formControlName="password"
+        type="password"
+        class="mt-1 w-full rounded-lg border-slate-300 focus:border-brand focus:ring-brand"
+        placeholder="••••••••"
+      />
+      <p class="mt-1 text-sm text-red-500" *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid">
+        Password must be at least 8 characters.
+      </p>
+    </div>
+
+    <button
+      type="submit"
+      class="w-full rounded-lg bg-brand py-2 text-white transition hover:bg-brand-dark disabled:cursor-not-allowed disabled:bg-slate-300"
+      [disabled]="loginForm.invalid || isSubmitting()"
+    >
+      {{ isSubmitting() ? 'Signing in...' : 'Sign in' }}
+    </button>
+  </form>
+
+  <p class="mt-4 text-center text-sm text-slate-600">
+    Need an account?
+    <a routerLink="/login" class="font-medium text-brand">Contact an admin</a>
+  </p>
+</div>

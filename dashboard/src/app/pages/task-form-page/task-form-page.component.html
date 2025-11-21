@@ -1,0 +1,78 @@
+<form class="mt-4 space-y-4" [formGroup]="taskForm" (ngSubmit)="submit()">
+  <p *ngIf="successMessage()" class="rounded-lg bg-emerald-50 px-4 py-2 text-sm text-emerald-700">
+    {{ successMessage() }}
+  </p>
+  <p *ngIf="errorMessage()" class="rounded-lg bg-red-50 px-4 py-2 text-sm text-red-600">
+    {{ errorMessage() }}
+  </p>
+  <div class="space-y-1">
+    <label class="text-sm font-medium text-slate-700" for="task-title">Title</label>
+    <input
+      id="task-title"
+      formControlName="title"
+      type="text"
+      placeholder="Define access review scope…"
+      class="w-full rounded-lg border-slate-300 focus:border-brand focus:ring-brand"
+    />
+    <p class="text-xs text-red-500" *ngIf="taskForm.get('title')?.touched && taskForm.get('title')?.invalid">
+      Title is required and should be descriptive.
+    </p>
+  </div>
+
+  <div class="space-y-1">
+    <label class="text-sm font-medium text-slate-700" for="task-description">Description</label>
+    <textarea
+      id="task-description"
+      formControlName="description"
+      rows="3"
+      placeholder="Optional summary or acceptance criteria"
+      class="w-full rounded-lg border-slate-300 focus:border-brand focus:ring-brand"
+    ></textarea>
+  </div>
+
+  <div class="grid gap-4 sm:grid-cols-2">
+    <div class="space-y-1">
+    <label class="text-sm font-medium text-slate-700" for="task-category">Category</label>
+    <select
+      id="task-category"
+      formControlName="category"
+      class="w-full rounded-lg border-slate-300 focus:border-brand focus:ring-brand"
+    >
+      <option *ngFor="let category of categories" [value]="category.value">
+        {{ category.label }}
+      </option>
+    </select>
+  </div>
+
+  <div class="space-y-1">
+      <label class="text-sm font-medium text-slate-700" for="task-status">Status</label>
+      <select
+        id="task-status"
+        formControlName="status"
+        class="w-full rounded-lg border-slate-300 focus:border-brand focus:ring-brand"
+      >
+        <option *ngFor="let status of statuses" [value]="status.value">
+          {{ status.label }}
+        </option>
+      </select>
+    </div>
+  </div>
+
+  <div class="space-y-1">
+    <label class="text-sm font-medium text-slate-700" for="task-due">Due date</label>
+    <input
+      id="task-due"
+      formControlName="dueDate"
+      type="date"
+      class="w-full rounded-lg border-slate-300 focus:border-brand focus:ring-brand"
+    />
+  </div>
+
+  <button
+    type="submit"
+    class="w-full rounded-lg bg-brand py-2 text-white transition hover:bg-brand-dark disabled:cursor-not-allowed disabled:bg-slate-300"
+    [disabled]="taskForm.invalid || submitting()"
+  >
+    {{ submitting() ? 'Saving…' : 'Save Task' }}
+  </button>
+</form>
