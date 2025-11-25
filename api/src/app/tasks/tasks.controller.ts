@@ -30,6 +30,13 @@ export class TasksController {
     return this.tasksService.getTasks(user, filters);
   }
 
+  @Get(':taskId')
+  @RolesAllowed(RoleName.OWNER, RoleName.ADMIN, RoleName.VIEWER)
+  @PermissionsRequired(PermissionName.READ_TASK)
+  getTask(@Param('taskId') taskId: string, @CurrentUser() user: RequestUser) {
+    return this.tasksService.getTask(taskId, user);
+  }
+
   @Put(':taskId')
   @RolesAllowed(RoleName.OWNER, RoleName.ADMIN)
   @PermissionsRequired(PermissionName.UPDATE_TASK)

@@ -25,6 +25,10 @@ export class ApiService {
     return this.http.get<TaskDto[]>(`${this.baseUrl}/tasks`);
   }
 
+  getTask(taskId: string): Observable<TaskDto> {
+    return this.http.get<TaskDto>(`${this.baseUrl}/tasks/${taskId}`);
+  }
+
   createTask(task: CreateTaskRequest): Observable<TaskDto> {
     return this.http.post<TaskDto>(`${this.baseUrl}/tasks`, task);
   }

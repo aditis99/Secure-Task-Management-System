@@ -1,5 +1,5 @@
 module.exports = {
-  content: ['./dashboard/src/**/*.{html,ts}'],
+  content: ['./apps/dashboard/src/**/*.{html,ts}'],
   theme: {
     extend: {
       colors: {

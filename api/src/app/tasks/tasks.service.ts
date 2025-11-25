@@ -82,6 +82,24 @@ export class TasksService {
     return tasks;
   }
 
+  async getTask(taskId: string, user: RequestUser) {
+    const task = await this.taskRepository.findOne({
+      where: { id: taskId },
+      relations: ['organization', 'createdBy'],
+    });
+
+    if (!task) {
+      throw new NotFoundException('Task not found');
+    }
+
+    await this.ensureTaskAccess(user, task.organization.id);
+    await this.auditService.record(AuditAction.TASK_VIEWED, {
+      user,
+      context: { taskId },
+    });
+    return task;
+  }
+
   async updateTask(taskId: string, user: RequestUser, dto: UpdateTaskDto) {
     const task = await this.taskRepository.findOne({
       where: { id: taskId },
@@ -133,7 +151,7 @@ export class TasksService {
   private async resolveOrganizationForAction(user: RequestUser, organizationId?: string) {
     const resolvedId = organizationId ?? user.organizationId;
     if (!resolvedId) {
-      throw new BadRequestException('Organization context required');
+      throw new BadRequestException('Organization context required - user must belong to an organization');
     }
 
     if (user.role !== RoleName.OWNER && resolvedId !== user.organizationId) {
@@ -145,7 +163,7 @@ export class TasksService {
       relations: ['parent'],
     });
     if (!organization) {
-      throw new NotFoundException('Organization not found');
+      throw new NotFoundException(`Organization not found: ${resolvedId}`);
     }
     if (user.role === RoleName.OWNER && user.organizationId) {
       const scope = await this.getOrganizationScopeIds(user);

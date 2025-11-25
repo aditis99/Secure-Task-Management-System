@@ -16,7 +16,7 @@ export class AppNavbarComponent {
 
   readonly navItems = [
     { path: '/dashboard', label: 'Dashboard' },
-    { path: '/dashboard/tasks/new', label: 'New Task' },
+    { path: '/new-task', label: 'New Task' },
   ];
 
   readonly currentUser = this.auth.userSignal;

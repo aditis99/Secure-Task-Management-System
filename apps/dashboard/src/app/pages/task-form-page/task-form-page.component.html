@@ -1,10 +1,19 @@
-<form class="mt-4 space-y-4" [formGroup]="taskForm" (ngSubmit)="submit()">
-  <p *ngIf="successMessage()" class="rounded-lg bg-emerald-50 px-4 py-2 text-sm text-emerald-700">
-    {{ successMessage() }}
-  </p>
-  <p *ngIf="errorMessage()" class="rounded-lg bg-red-50 px-4 py-2 text-sm text-red-600">
-    {{ errorMessage() }}
-  </p>
+<div class="mt-4">
+  <h1 class="text-2xl font-bold text-slate-900 mb-6">{{ pageTitle() }}</h1>
+  
+  <!-- Loading state for edit mode -->
+  <div *ngIf="loading()" class="flex items-center justify-center py-8">
+    <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-brand"></div>
+    <span class="ml-2 text-slate-600">Loading task...</span>
+  </div>
+
+  <form *ngIf="!loading()" class="space-y-4" [formGroup]="taskForm" (ngSubmit)="submit()">
+    <p *ngIf="successMessage()" class="rounded-lg bg-emerald-50 px-4 py-2 text-sm text-emerald-700">
+      {{ successMessage() }}
+    </p>
+    <p *ngIf="errorMessage()" class="rounded-lg bg-red-50 px-4 py-2 text-sm text-red-600">
+      {{ errorMessage() }}
+    </p>
   <div class="space-y-1">
     <label class="text-sm font-medium text-slate-700" for="task-title">Title</label>
     <input
@@ -68,11 +77,12 @@
     />
   </div>
 
-  <button
-    type="submit"
-    class="w-full rounded-lg bg-brand py-2 text-white transition hover:bg-brand-dark disabled:cursor-not-allowed disabled:bg-slate-300"
-    [disabled]="taskForm.invalid || submitting()"
-  >
-    {{ submitting() ? 'Saving…' : 'Save Task' }}
-  </button>
-</form>
+    <button
+      type="submit"
+      class="w-full rounded-lg bg-brand py-2 text-white transition hover:bg-brand-dark disabled:cursor-not-allowed disabled:bg-slate-300"
+      [disabled]="taskForm.invalid || submitting()"
+    >
+      {{ submitting() ? (isEditMode() ? 'Updating…' : 'Creating…') : (isEditMode() ? 'Update Task' : 'Create Task') }}
+    </button>
+  </form>
+</div>

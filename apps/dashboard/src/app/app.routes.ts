@@ -11,7 +11,16 @@ export const appRoutes: Route[] = [
     path: 'dashboard',
     canActivate: [AuthGuard],
     component: DashboardPageComponent,
-    children: [{ path: 'tasks/new', component: TaskFormPageComponent }],
+  },
+  {
+    path: 'new-task',
+    canActivate: [AuthGuard],
+    component: TaskFormPageComponent,
+  },
+  {
+    path: 'edit-task/:id',
+    canActivate: [AuthGuard],
+    component: TaskFormPageComponent,
   },
   { path: '**', redirectTo: 'dashboard' },
 ];

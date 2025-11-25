@@ -78,12 +78,17 @@ export class UsersService {
   }
 
   async ensureAdminExists(): Promise<void> {
-    const count = await this.userRepository.count();
-    if (count === 0) {
+    // Check specifically for the default owner user, not just any user count
+    const defaultOwner = await this.userRepository.findOne({
+      where: { email: 'owner@secure-task.dev' }
+    });
+    
+    if (!defaultOwner) {
       const fallbackOrg = await this.ensureRootOrganization();
       const defaultPassword = await bcrypt.hash('ChangeMe123!', 10);
       const ownerRole = await this.rbacService.getRole(RoleName.OWNER);
-      await this.userRepository.save(
+      
+      const newOwner = await this.userRepository.save(
         this.userRepository.create({
           firstName: 'System',
           lastName: 'Owner',
@@ -94,6 +99,10 @@ export class UsersService {
           roleName: RoleName.OWNER,
         })
       );
+      
+      console.log('✅ Default owner user created:', newOwner.email);
+    } else {
+      console.log('✅ Default owner user already exists:', defaultOwner.email);
     }
   }
 

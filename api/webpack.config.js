@@ -9,6 +9,19 @@ module.exports = {
       devtoolModuleFilenameTemplate: '[absolute-resource-path]',
     }),
   },
+  watchOptions: {
+    aggregateTimeout: 3000,
+    poll: false,
+    ignored: [
+      '**/node_modules/**',
+      '**/dist/**',
+      '**/.git/**',
+      '**/tmp/**',
+      '**/coverage/**',
+      '**/test-results/**',
+      '**/database.sqlite'
+    ],
+  },
   plugins: [
     new NxAppWebpackPlugin({
       target: 'node',
