@@ -86,7 +86,6 @@ Use the following credentials to access the system:
 **Features:**
 - Secure authentication with email and password
 - Form validation and error handling
-- "Contact an admin" link for account requests
 - Professional welcome message
 
 ### 2. Dashboard - Task Operations Center
