@@ -82,53 +82,36 @@ export class TasksService {
     return tasks;
   }
 
-  async getTask(taskId: string, user: RequestUser) {
-    const task = await this.taskRepository.findOne({
-      where: { id: taskId },
-      relations: ['organization', 'createdBy'],
-    });
+  // Edit functionality temporarily disabled for system stability
+  // async updateTask(taskId: string, user: RequestUser, dto: UpdateTaskDto) {
+  //   const task = await this.taskRepository.findOne({
+  //     where: { id: taskId },
+  //     relations: ['organization'],
+  //   });
+  //   if (!task) {
+  //     throw new NotFoundException('Task not found');
+  //   }
 
-    if (!task) {
-      throw new NotFoundException('Task not found');
-    }
+  //   await this.ensureTaskAccess(user, task.organization.id);
 
-    await this.ensureTaskAccess(user, task.organization.id);
-    await this.auditService.record(AuditAction.TASK_VIEWED, {
-      user,
-      context: { taskId },
-    });
-    return task;
-  }
+  //   if (dto.title !== undefined) task.title = dto.title;
+  //   if (dto.description !== undefined) task.description = dto.description;
+  //   if (dto.status !== undefined) task.status = dto.status;
+  //   if (dto.category !== undefined) task.category = dto.category;
+  //   if (dto.dueDate !== undefined) {
+  //     task.dueDate = dto.dueDate ? new Date(dto.dueDate) : null;
+  //   }
+  //   if (dto.organizationId) {
+  //     task.organization = await this.resolveOrganizationForAction(user, dto.organizationId);
+  //   }
 
-  async updateTask(taskId: string, user: RequestUser, dto: UpdateTaskDto) {
-    const task = await this.taskRepository.findOne({
-      where: { id: taskId },
-      relations: ['organization'],
-    });
-    if (!task) {
-      throw new NotFoundException('Task not found');
-    }
-
-    await this.ensureTaskAccess(user, task.organization.id);
-
-    if (dto.title !== undefined) task.title = dto.title;
-    if (dto.description !== undefined) task.description = dto.description;
-    if (dto.status !== undefined) task.status = dto.status;
-    if (dto.category !== undefined) task.category = dto.category;
-    if (dto.dueDate !== undefined) {
-      task.dueDate = dto.dueDate ? new Date(dto.dueDate) : null;
-    }
-    if (dto.organizationId) {
-      task.organization = await this.resolveOrganizationForAction(user, dto.organizationId);
-    }
-
-    const saved = await this.taskRepository.save(task);
-    await this.auditService.record(AuditAction.TASK_UPDATED, {
-      user,
-      context: { taskId: saved.id },
-    });
-    return saved;
-  }
+  //   const saved = await this.taskRepository.save(task);
+  //   await this.auditService.record(AuditAction.TASK_UPDATED, {
+  //     user,
+  //     context: { taskId: saved.id },
+  //   });
+  //   return saved;
+  // }
 
   async deleteTask(taskId: string, user: RequestUser) {
     const task = await this.taskRepository.findOne({

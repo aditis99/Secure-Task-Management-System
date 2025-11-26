@@ -2,6 +2,7 @@ const { NxAppWebpackPlugin } = require('@nx/webpack/app-plugin');
 const { join } = require('path');
 
 module.exports = {
+  mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
   output: {
     path: join(__dirname, '../dist/api'),
     clean: true,
@@ -10,7 +11,7 @@ module.exports = {
     }),
   },
   watchOptions: {
-    aggregateTimeout: 3000,
+    aggregateTimeout: 5000,
     poll: false,
     ignored: [
       '**/node_modules/**',
@@ -19,7 +20,14 @@ module.exports = {
       '**/tmp/**',
       '**/coverage/**',
       '**/test-results/**',
-      '**/database.sqlite'
+      '**/database.sqlite',
+      '**/database.sqlite-journal',
+      '**/database.sqlite-wal',
+      '**/database.sqlite-shm',
+      '**/.nx/**',
+      '**/logs/**',
+      '**/*.log',
+      '**/apps/dashboard/**'
     ],
   },
   plugins: [
@@ -33,6 +41,7 @@ module.exports = {
       outputHashing: 'none',
       generatePackageJson: true,
       sourceMaps: true,
+      watch: false,
     }),
   ],
 };

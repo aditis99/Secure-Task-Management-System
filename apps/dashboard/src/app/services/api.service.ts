@@ -25,17 +25,14 @@ export class ApiService {
     return this.http.get<TaskDto[]>(`${this.baseUrl}/tasks`);
   }
 
-  getTask(taskId: string): Observable<TaskDto> {
-    return this.http.get<TaskDto>(`${this.baseUrl}/tasks/${taskId}`);
-  }
-
   createTask(task: CreateTaskRequest): Observable<TaskDto> {
     return this.http.post<TaskDto>(`${this.baseUrl}/tasks`, task);
   }
 
-  updateTask(taskId: string, updates: UpdateTaskRequest): Observable<TaskDto> {
-    return this.http.put<TaskDto>(`${this.baseUrl}/tasks/${taskId}`, updates);
-  }
+  // Edit functionality temporarily disabled for system stability
+  // updateTask(taskId: string, updates: UpdateTaskRequest): Observable<TaskDto> {
+  //   return this.http.put<TaskDto>(`${this.baseUrl}/tasks/${taskId}`, updates);
+  // }
 
   deleteTask(taskId: string): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/tasks/${taskId}`);

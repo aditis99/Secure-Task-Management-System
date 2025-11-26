@@ -30,23 +30,17 @@ export class TasksController {
     return this.tasksService.getTasks(user, filters);
   }
 
-  @Get(':taskId')
-  @RolesAllowed(RoleName.OWNER, RoleName.ADMIN, RoleName.VIEWER)
-  @PermissionsRequired(PermissionName.READ_TASK)
-  getTask(@Param('taskId') taskId: string, @CurrentUser() user: RequestUser) {
-    return this.tasksService.getTask(taskId, user);
-  }
-
-  @Put(':taskId')
-  @RolesAllowed(RoleName.OWNER, RoleName.ADMIN)
-  @PermissionsRequired(PermissionName.UPDATE_TASK)
-  updateTask(
-    @Param('taskId') taskId: string,
-    @CurrentUser() user: RequestUser,
-    @Body() dto: UpdateTaskDto
-  ) {
-    return this.tasksService.updateTask(taskId, user, dto);
-  }
+  // Edit functionality temporarily disabled for system stability
+  // @Put(':taskId')
+  // @RolesAllowed(RoleName.OWNER, RoleName.ADMIN)
+  // @PermissionsRequired(PermissionName.UPDATE_TASK)
+  // updateTask(
+  //   @Param('taskId') taskId: string,
+  //   @CurrentUser() user: RequestUser,
+  //   @Body() dto: UpdateTaskDto
+  // ) {
+  //   return this.tasksService.updateTask(taskId, user, dto);
+  // }
 
   @Delete(':taskId')
   @RolesAllowed(RoleName.OWNER, RoleName.ADMIN)

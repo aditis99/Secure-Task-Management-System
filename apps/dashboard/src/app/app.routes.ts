@@ -17,10 +17,5 @@ export const appRoutes: Route[] = [
     canActivate: [AuthGuard],
     component: TaskFormPageComponent,
   },
-  {
-    path: 'edit-task/:id',
-    canActivate: [AuthGuard],
-    component: TaskFormPageComponent,
-  },
   { path: '**', redirectTo: 'dashboard' },
 ];
